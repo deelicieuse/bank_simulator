@@ -1,3 +1,7 @@
+class BalanceException(Exception):
+    pass
+
+
 class BankAccount:
     def __init__(self, intialAmount, acctName):
         self.balance = intialAmount
