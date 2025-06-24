@@ -36,7 +36,7 @@ class BankAccount:
     def transfer(self, amount, account):
         try:
             print("\n*********\n\nBeginning"
-                  "Transfer...🚀")
+                  " Transfer...🚀")
             self.viable_transaction(amount)
             self.withdraw(amount)
             account.deposit(amount)
@@ -56,7 +56,7 @@ class SavingsAcct(InterestRewardsAcct):
         super().__init__(initialAmount, acctName)
         self.fee = 5
 
-    def withdraw(selfself, amount):
+    def withdraw(self, amount):
         try:
             self.viable_transaction(amount + self.fee)
             print("\nWithdraw Complete.")
