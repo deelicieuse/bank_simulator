@@ -6,3 +6,5 @@ Sara = BankAccount(2000, "Sara")
 Dave.getBalance()
 
 Sara.deposit(500)
+
+Dave.withdraw(100000)
