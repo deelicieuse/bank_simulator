@@ -3,9 +3,9 @@ class BalanceException(Exception):
 
 
 class BankAccount:
-    def __init__(self, intialAmount, acctName):
-        self.balance = intialAmount
-        self.name = acctName
+    def __init__(self, intial_amount, acct_name):
+        self.balance = intial_amount
+        self.name = acct_name
         print(f"\nAccount '{self.name}' created."
               f"\nBalance = {self.balance:.2f}")
 
@@ -52,8 +52,8 @@ class InterestRewardsAcct(BankAccount):
         self.get_balance()
 
 class SavingsAcct(InterestRewardsAcct):
-    def __init__(self, initialAmount, acctName):
-        super().__init__(initialAmount, acctName)
+    def __init__(self, initial_amount, acct_name):
+        super().__init__(initial_amount, acct_name)
         self.fee = 5
 
     def withdraw(self, amount):
