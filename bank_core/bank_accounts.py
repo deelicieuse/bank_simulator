@@ -1,4 +1,4 @@
-from .balance_exception import BalanceException
+from bank_core.balance_exception import BalanceException
 
 class BankAccount:
     def __init__(self, intial_amount, acct_name):

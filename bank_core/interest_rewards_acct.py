@@ -1,4 +1,4 @@
-from .bank_accounts import BankAccount
+from bank_core.bank_accounts import BankAccount
 
 class InterestRewardsAcct(BankAccount):
     def deposit(self, amount):

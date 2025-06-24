@@ -1,4 +1,4 @@
-from .interest_rewards_acct import InterestRewardsAcct
+from bank_core.interest_rewards_acct import InterestRewardsAcct
 
 class SavingsAcct(InterestRewardsAcct):
     def __init__(self, initial_amount, acct_name):
