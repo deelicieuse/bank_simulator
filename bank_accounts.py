@@ -37,18 +37,4 @@ class BankAccount:
         except BalanceException as error:
             raise error
 
-class InterestRewardsAcct(BankAccount):
-    def deposit(self, amount):
-        self.balance = self.balance + (amount * 1.05)
 
-class SavingsAcct(InterestRewardsAcct):
-    def __init__(self, initial_amount, acct_name):
-        super().__init__(initial_amount, acct_name)
-        self.fee = 5
-
-    def withdraw(self, amount):
-        try:
-            self.viable_transaction(amount + self.fee)
-            self.get_balance()
-        except BalanceException as error:
-            raise error
