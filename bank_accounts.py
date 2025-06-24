@@ -18,7 +18,7 @@ class BankAccount:
         print("\nDeposit Complete")
         self.get_balance()
 
-    def viableTransaction(self, amount):
+    def viable_transaction(self, amount):
         if self.balance >= amount:
             return
         else:
@@ -27,7 +27,7 @@ class BankAccount:
 
     def withdraw(self, amount):
         try:
-            self.viableTransaction(amount)
+            self.viable_transaction(amount)
             self.balance = self.balance - amount
             print(f"\nWithdraw complete")
         except BalanceException as error:
@@ -37,10 +37,12 @@ class BankAccount:
         try:
             print("\n*********\n\nBeginning"
                   "Transfer...🚀")
-            self.viableTransaction(amount)
+            self.viable_transaction(amount)
             self.withdraw(amount)
             account.deposit(amount)
             print("\nTranfer complete! "
                   "✅\n\n*********")
         except BalanceException as error:
             print(f"\nTranfer interrupted. ❌")
+
+class InterestRewardsAcct(BankAccount):
