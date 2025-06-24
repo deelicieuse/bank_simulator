@@ -55,3 +55,11 @@ class SavingsAcct(InterestRewardsAcct):
     def __init__(self, initialAmount, acctName):
         super().__init__(initialAmount, acctName)
         self.fee = 5
+
+    def withdraw(selfself, amount):
+        try:
+            self.viable_transaction(amount + self.fee)
+            print("\nWithdraw Complete.")
+            self.get_balance()
+        except BalanceException as error:
+            print(f"\nWithdraw interrupted: {error}")
