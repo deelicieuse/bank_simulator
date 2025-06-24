@@ -9,8 +9,8 @@ from bank_core.savings_acct import SavingsAcct
 class BankGui:
     def __init__(self, root):
         self.root = root
-        root.title("Bank ATM Simulation")
-        root.geometry("550x580")
-        root.resizeable(False,False)
+        self.root.title("Bank ATM Simulation")
+        self.root.geometry("550x580")
+        self.root.resizeable(False, False)
 
         pass
