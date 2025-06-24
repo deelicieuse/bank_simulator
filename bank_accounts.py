@@ -50,3 +50,8 @@ class InterestRewardsAcct(BankAccount):
         self.balance = self.balance + (amount * 1.05)
         print("\nDeposit complete.")
         self.get_balance()
+
+class SavingsAcct(InterestRewardsAcct):
+    def __init__(self, initialAmount, acctName):
+        super().__init__(initialAmount, acctName)
+        self.fee = 5
