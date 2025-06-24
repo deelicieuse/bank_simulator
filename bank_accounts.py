@@ -9,14 +9,14 @@ class BankAccount:
         print(f"\nAccount '{self.name}' created."
               f"\nBalance = {self.balance:.2f}")
 
-    def getBalance(self):
+    def get_balance(self):
         print(f"\nAccount: '{self.name}'"
               f"\nBalance = ${self.balance:.2f}")
 
     def deposit(self, amount):
         self.balance = self.balance + amount
         print("\nDeposit Complete")
-        self.getBalance()
+        self.get_balance()
 
     def viableTransaction(self, amount):
         if self.balance >= amount:
