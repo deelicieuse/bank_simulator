@@ -27,16 +27,15 @@ class BankAccount:
             self.viable_transaction(amount)
             self.balance = self.balance - amount
         except BalanceException as error:
-            print(f"\n Withdraw interrupted: {error}")
+            raise error
 
     def transfer(self, amount, account):
         try:
-
             self.viable_transaction(amount)
             self.withdraw(amount)
             account.deposit(amount)
         except BalanceException as error:
-            print(f"\nTranfer interrupted. ❌")
+            raise error
 
 class InterestRewardsAcct(BankAccount):
     def deposit(self, amount):
