@@ -46,3 +46,7 @@ class BankAccount:
             print(f"\nTranfer interrupted. ❌")
 
 class InterestRewardsAcct(BankAccount):
+    def deposit(self, amount):
+        self.balance = self.balance + (amount * 1.05)
+        print("\nDeposit complete.")
+        self.get_balance()
