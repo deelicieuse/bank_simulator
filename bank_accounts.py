@@ -6,17 +6,14 @@ class BankAccount:
     def __init__(self, intial_amount, acct_name):
         self.balance = intial_amount
         self.name = acct_name
-        print(f"\nAccount '{self.name}' created."
-              f"\nBalance = {self.balance:.2f}")
 
     def get_balance(self):
-        print(f"\nAccount: '{self.name}'"
-              f"\nBalance = ${self.balance:.2f}")
+        return
+
 
     def deposit(self, amount):
         self.balance = self.balance + amount
-        print("\nDeposit Complete")
-        self.get_balance()
+
 
     def viable_transaction(self, amount):
         if self.balance >= amount:
@@ -29,19 +26,15 @@ class BankAccount:
         try:
             self.viable_transaction(amount)
             self.balance = self.balance - amount
-            print(f"\nWithdraw complete")
         except BalanceException as error:
             print(f"\n Withdraw interrupted: {error}")
 
     def transfer(self, amount, account):
         try:
-            print("\n*********\n\nBeginning"
-                  " Transfer...🚀")
+
             self.viable_transaction(amount)
             self.withdraw(amount)
             account.deposit(amount)
-            print("\nTranfer complete! "
-                  "✅\n\n*********")
         except BalanceException as error:
             print(f"\nTranfer interrupted. ❌")
 
