@@ -81,7 +81,7 @@ class BankGUI:
         self.screens['welcome'] = self.welcome_screen
         ctk.CTkButton(self.welcome_screen,
                       text="INSERT CARD",
-                      command=self._show_account_selection_screen(),
+                      command=self._show_account_selection_screen,
                       font=self.font_button,
                       fg_color=self.btn_color_primary,
                       hover_color=self.btn_hover_primary).pack(pady=50)
@@ -110,7 +110,7 @@ class BankGUI:
         ctk.CTkButton(
             self.account_select_screen,
             text="RETURN CARD / CANCEL",
-            command=self._return_card_and_reset(),
+            command=self._return_card_and_reset,
             font=self.font_button,
             fg_color=self.btn_color_danger,
             hover_color=self.btn_hover_danger
@@ -120,7 +120,7 @@ class BankGUI:
         self.screens['transaction_menu'] = self.transaction_menu_screen
         ctk.CTkLabel(self.transaction_menu_screen, text="SELECT TRANSACTION:", font=self.font_heading, text_color="#ffffff").pack(pady=15)
         transaction_buttons_info = [
-            ("VIEW BALANCE", self._display_current_balance()),
+            ("VIEW BALANCE", self._display_current_balance),
             ("DEPOSIT FUNDS", lambda: self._show_transaction_input("deposit")),
             ("WITHDRAW CASH", lambda: self._show_transaction_input("withdraw")),
             ("TRANSFER CREDITS", lambda: self._show_transaction_input("transfer"))
@@ -156,7 +156,7 @@ class BankGUI:
         self.receipt_button = ctk.CTkButton(
             self.post_transaction_screen,
             text="PRINT RECEIPT",
-            command=self._print_receipt(),
+            command=self._print_receipt,
             font=self.font_button,
             fg_color=self.btn_color_success,
             hover_color=self.btn_hover_success
