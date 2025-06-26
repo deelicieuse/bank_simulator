@@ -478,6 +478,34 @@ class BankGUI:
             messagebox.showerror("Error", str(error))
             self._update_status(f"TRANSFER ERROR: {error}")
 
+    def _display_current_balance(self):
+        if self.current_selected_account:
+            self._update_status(
+                f"ACCOUNT: {self.current_selected_account.name.upper()}\n"
+                f"CURRENT BALANCE: ${self.current_selected_account.get_balance():.2f}"
+            )
+            self._show_post_transaction_screen(False)
+        else:
+            messagebox.showerror("Error", "No account selected.")
+            self._update_status("ERROR: NO ACCOUNT SELECTED.")
+            self._show_account_selection_screen()
+
+    def _print_receipt(self):
+        if self.current_selected_account:
+            messagebox.showinfo(
+                "RECEIPT PRINTED",
+                f"--- TRANSACTION RECEIPT ---\n"
+                f"Account: {self.current_selected_account.name.upper()}\n"
+                f"Balance: ${self.current_selected_account.get_balance():.2f}\n"
+                f"Thank you for banking with us!"
+            )
+            self._update_status("RECEIPT PRINTED.")
+        else:
+            messagebox.showerror("Error", "No active transaction.")
+            self._update_status("NO ACTIVE TRANSACTION.")
+        self._show_post_transaction_screen(False)
+
+
 
 
 
