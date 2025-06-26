@@ -152,7 +152,7 @@ class BankGUI:
             command=self._placeholder_handler(),
             font=self.font_button,
             fg_color=self.btn_color_primary,
-            hover_color=self.
+            hover_color=self.btn_hover_primary
         ).pack(pady=10)
         self.receipt_button = ctk.CTkButton(
             self.post_transaction_screen,
@@ -261,6 +261,25 @@ class BankGUI:
             fg_color=self.btn_color_neutral,
             hover_color=self.btn_hover_neutral
         ).pack(fill=ctk.X, pady=10)
+
+    def _hide_all_screens(self):
+        for screen in self.screens.values():
+            screen.pack_forget()
+
+    def _show_screen(self, screen_to_show):
+        self._hide_all_screens()
+        screen_to_show.pack(fill=ctk.BOTH, expand=True)
+
+    def _update_status(self, message):
+        self.status_display_var.set(message.upper())
+
+    def _clear_inputs(self):
+        self.amount_var.set("")
+        self.account_name_var.set("")
+        self.initial_balance_var.set("")
+        self.account_type_var.set("Standard")
+
+
 
 
 
