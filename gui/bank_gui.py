@@ -47,9 +47,10 @@ class BankGUI:
         self.btn_color_neutral = "#6c757d"
         self.btn_hover_neutral = "#5a6268"
 
-
-
         self._create_main_layout_containers()
+        self._create_all_dynamic_screens()
+
+
 
     def _create_main_layout_containers(self):
         self.main_frame = ctk.CTkFrame(self.root, fg_color="#343a40", corner_radius=10)
@@ -71,3 +72,43 @@ class BankGUI:
         self.content_frame = ctk.CTkFrame(self.main_frame, fg_color="#495057", corner_radius=8)
         self.content_frame.grid(row=1, column=0, pady=10, padx=10, sticky="nsew")
         self.content_frame.grid_columnconfigure(0, weight=1)
+
+    def _create_all_dynamic_screens(self):
+        self.screens = {}
+
+        self.welcome_screen = ctk.CTkFrame(self.content_frame, fg_color="transparent")
+        self.screens['welcome'] = self.welcome_screen
+        ctk.CTkButton(self.welcome_screen,
+                      text="INSERT CARD",
+                      command=print("Remind me later: insert card"),
+                      font=self.font_button,
+                      fg_color=self.btn_color_primary,
+                      hover_color=self.btn_hover_primary).pack(pady=50)
+
+        self.account_select_screen = ctk.CTkFrame(self.content_frame, fg_color="transparent")
+        self.screens['account_select'] = self.account_select_screen
+        ctk.CTkLabel(self.account_select_screen,
+                     text="CHOOSE ACCOUNT TYPE:",
+                     font=self.font_heading,
+                     text_color="#ffffff").pack(pady=15)
+
+        account_type_buttons_info = [
+            ("CHECKING", "CHECKING"),
+            ("SAVINGS", "SAVINGS"),
+            ("INTEREST REWARDS", "REWARDS"),
+            ("CREATE NEW ACCOUNT", "NEW")
+        ]
+        for text, type_val in account_type_buttons_info:
+            ctk.CTkButton(self.account_select_screen,
+                          text=text,
+                          command=print("Remind me later"),
+                          font=self.font_button,
+                          fg_color=self.btn_color_primary,
+                          hover_color=self.btn_hover_primary).pack(fill=ctk.X, pady=4, padx=50)
+
+        ctk.CTkButton(self.account_select_screen,
+                      text="RETURN CARD / CANCEL",
+                      command=print("Remind me later: return card/cancel"),
+                      font=self.font_button,
+                      fg_color=self.btn_color_danger,
+                      hover_color=self.btn_hover_danger).pack(pady=20)
