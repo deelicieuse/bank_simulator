@@ -1,6 +1,12 @@
 import customtkinter as ctk
 from tkinter import messagebox, simpledialog
 
+from bank_core.balance_exception import BalanceException
+from bank_core.bank_accounts import BankAccount
+from bank_core.interest_rewards_acct import InterestRewardsAcct
+from bank_core.savings_acct import SavingsAcct
+
+
 class BankGUI:
     def __init__(self, root):
         self.root = root
@@ -10,6 +16,21 @@ class BankGUI:
 
         ctk.set_appearance_mode("System")
         ctk.set_default_color_theme("blue")
+
+        self.accounts = {
+            "CHECKING": BankAccount(1500.00, "CHECKING"),
+            "SAVINGS": SavingsAcct(2500.00, "SAVINGS"),
+            "REWARDS": InterestRewardsAcct(5000.00, "REWARDS")
+        }
+
+        self.current_selected_account = None
+        self.transaction_type = None
+
+        self.amount_var = ctk.StringVar()
+        self.account_name_var = ctk.StringVar()
+        self.initial_balance_var = ctk.StringVar()
+        self.account_type_var = ctk.StringVar(value="Standard")
+
 
         self._create_main_layout_containers()
 
