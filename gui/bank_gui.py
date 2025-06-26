@@ -51,7 +51,6 @@ class BankGUI:
         self._create_all_dynamic_screens()
 
 
-
     def _create_main_layout_containers(self):
         self.main_frame = ctk.CTkFrame(self.root, fg_color="#343a40", corner_radius=10)
         self.main_frame.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
@@ -73,6 +72,9 @@ class BankGUI:
         self.content_frame.grid(row=1, column=0, pady=10, padx=10, sticky="nsew")
         self.content_frame.grid_columnconfigure(0, weight=1)
 
+    def _placeholder_handler(self):
+        print("Button pressed (not yet implemented)")
+
     def _create_all_dynamic_screens(self):
         self.screens = {}
 
@@ -80,7 +82,7 @@ class BankGUI:
         self.screens['welcome'] = self.welcome_screen
         ctk.CTkButton(self.welcome_screen,
                       text="INSERT CARD",
-                      command=print("Remind me later: insert card"),
+                      command=self._placeholder_handler(),
                       font=self.font_button,
                       fg_color=self.btn_color_primary,
                       hover_color=self.btn_hover_primary).pack(pady=50)
@@ -101,14 +103,165 @@ class BankGUI:
         for text, type_val in account_type_buttons_info:
             ctk.CTkButton(self.account_select_screen,
                           text=text,
-                          command=print("Remind me later"),
+                          command=self._placeholder_handler(),
                           font=self.font_button,
                           fg_color=self.btn_color_primary,
                           hover_color=self.btn_hover_primary).pack(fill=ctk.X, pady=4, padx=50)
 
-        ctk.CTkButton(self.account_select_screen,
-                      text="RETURN CARD / CANCEL",
-                      command=print("Remind me later: return card/cancel"),
-                      font=self.font_button,
-                      fg_color=self.btn_color_danger,
-                      hover_color=self.btn_hover_danger).pack(pady=20)
+        ctk.CTkButton(
+            self.account_select_screen,
+            text="RETURN CARD / CANCEL",
+            command=self._placeholder_handler(),
+            font=self.font_button,
+            fg_color=self.btn_color_danger,
+            hover_color=self.btn_hover_danger
+        ).pack(pady=20)
+
+        self.transaction_menu_screen = ctk.CTkFrame(self.content_frame, fg_color="transparent")
+        self.screens['transaction_menu'] = self.transaction_menu_screen
+        ctk.CTkLabel(self.transaction_menu_screen, text="SELECT TRANSACTION:", font=self.font_heading, text_color="#ffffff").pack(pady=15)
+        transaction_buttons_info = [
+            ("VIEW BALANCE", self._placeholder_handler()),
+            ("DEPOSIT FUNDS", lambda: self._placeholder_handler("deposit")),
+            ("WITHDRAW CASH", lambda: self._placeholder_handler("withdraw")),
+            ("TRANSFER CREDITS", lambda: self._placeholder_handler("transfer"))
+        ]
+        for text, command in transaction_buttons_info:
+            ctk.CTkButton(
+                self.transaction_menu_screen,
+                text=text, command=command,
+                font=self.font_button,
+                fg_color=self.btn_color_primary,
+                hover_color=self.btn_hover_primary
+            ).pack(fill=ctk.X, pady=4, padx=50)
+
+        ctk.CTkButton(
+            self.transaction_menu_screen,
+            text="RETURN CARD / CANCEL",
+            command=self._placeholder_handler(),
+            font=self.font_button,
+            fg_color=self.btn_color_danger,
+            hover_color=self.btn_hover_danger
+        ).pack(pady=20)
+
+        self.post_transaction_screen = ctk.CTkFrame(self.content_frame, fg_color="transparent")
+        self.screens['post_transaction'] = self.post_transaction_screen
+        ctk.CTkButton(
+            self.post_transaction_screen,
+            text="DO ANOTHER TRANSACTION",
+            command=self._placeholder_handler(),
+            font=self.font_button,
+            fg_color=self.btn_color_primary,
+            hover_color=self.
+        ).pack(pady=10)
+        self.receipt_button = ctk.CTkButton(
+            self.post_transaction_screen,
+            text="PRINT RECEIPT",
+            command=self._placeholder_handler(),
+            font=self.font_button,
+            fg_color=self.btn_color_success,
+            hover_color=self.btn_hover_success
+        )
+        self.receipt_button.pack(pady=10)
+        ctk.CTkButton(
+            self.post_transaction_screen,
+            text="RETURN CARD / FINISH",
+            command=self._placeholder_handler(),
+            font=self.font_button,
+            fg_color=self.btn_color_danger,
+            hover_color=self.btn_hover_danger
+        ).pack(pady=20)
+
+        self.create_account_screen = ctk.CTkFrame(self.content_frame, fg_color="#495057", corner_radius=8)
+        self.screens['create_account'] = self.create_account_screen
+        ctk.CTkLabel(self.create_account_screen, text="ENTER NEW ACCOUNT DETAILS", font=self.font_heading,
+                     text_color="#ffffff").pack(pady=10)
+
+        input_grid_frame = ctk.CTkFrame(self.create_account_screen, fg_color="transparent")
+        input_grid_frame.pack(fill=ctk.X, pady=5)
+        input_grid_frame.grid_columnconfigure(1, weight=1)
+
+        ctk.CTkLabel(input_grid_frame,
+                     text="ACCOUNT NAME:",
+                     text_color="#ffffff",
+                     font=self.font_label
+                     ).grid(row=0, column=0, padx=5, pady=5, sticky="w")
+        ctk.CTkEntry(
+            input_grid_frame,
+            textvariable=self.account_name_var,
+            font=self.font_entry,
+            text_color="#000000",
+             fg_color="#e0e0e0"
+        ).grid(row=0, column=1, padx=5, pady=5, sticky="ew")
+
+        ctk.CTkLabel(
+            input_grid_frame,
+            text="STARTING BALANCE ($):",
+            text_color="#ffffff",
+            font=self.font_label
+        ).grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        ctk.CTkEntry(input_grid_frame,
+                     textvariable=self.initial_balance_var,
+                     font=self.font_entry,
+                     text_color="#000000",
+                     fg_color="#e0e0e0"
+                     ).grid(row=1, column=1, padx=5, pady=5, sticky="ew")
+
+        type_frame = ctk.CTkFrame(self.create_account_screen, fg_color="transparent")
+        type_frame.pack(pady=10)
+        ctk.CTkLabel(type_frame,
+                     text="ACCOUNT TYPE:",
+                     text_color="#ffffff",
+                     font=self.font_label
+                     ).pack(side=ctk.TOP,pady=5)
+        ctk.CTkRadioButton(
+            type_frame,
+            text="STANDARD",
+            variable=self.account_type_var,
+            value="Standard",
+            font=self.font_label,
+            text_color="#ffffff",
+            fg_color=self.btn_color_primary,
+            hover_color=self.btn_hover_primary
+        ).pack(side=ctk.LEFT, padx=10)
+        ctk.CTkRadioButton(
+            type_frame,
+            text="INTEREST REWARDS",
+            variable=self.account_type_var,
+            value="Interest",
+            font=self.font_label,
+            text_color="#ffffff",
+            fg_color=self.btn_color_primary,
+            hover_color=self.btn_hover_primary
+        ).pack(side=ctk.LEFT, padx=10)
+        ctk.CTkRadioButton(
+            type_frame,
+            text="SAVINGS (W/ FEE)",
+            variable=self.account_type_var,
+            value="Savings",
+            font=self.font_label,
+            text_color="#ffffff",
+            fg_color=self.btn_color_primary,
+            hover_color=self.btn_hover_primary
+        ).pack(side=ctk.LEFT, padx=10)
+
+        ctk.CTkButton(
+            self.create_account_screen,
+            text="CREATE ACCOUNT",
+            command=self.create_account,
+            font=self.font_button,
+            fg_color=self.btn_color_success,
+            hover_color=self.btn_hover_success
+        ).pack(fill=ctk.X, pady=5)
+        ctk.CTkButton(
+            self.create_account_screen,
+            text="<< BACK TO ACCOUNT SELECTION",
+            command=self._show_account_selection_screen,
+            font=self.font_button,
+            fg_color=self.btn_color_neutral,
+            hover_color=self.btn_hover_neutral
+        ).pack(fill=ctk.X, pady=10)
+
+
+
+
