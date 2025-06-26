@@ -288,7 +288,7 @@ class BankGUI:
     def _show_account_selection_screen(self):
         self._clear_inputs()
         self._update_status("PLEASE SELECT YOUR ACCOUNT TYPE.")
-        self._show_screen(self._account_select_screen)
+        self._show_screen(self.account_select_screen)
 
     def _show_create_account_screen(self, *args):
         self._clear_inputs()
