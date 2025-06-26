@@ -391,6 +391,19 @@ class BankGUI:
             messagebox.showerror("Error", f"Account creation failed: {error}")
             self._update_status(f"CREATION FAILED: {error}")
 
+    def _perform_current_transaction(self):
+        if self.transaction_type == "deposit":
+            self.perform_deposit()
+        elif self.transaction_type == "withdraw":
+            self.perform_withdraw()
+        elif self.transaction_type == "transfer":
+            self.perform_transfer()
+        else:
+            messagebox.showerror("Error", "Unknown transaction type.")
+            self._update_status("UNKNOWN TRANSACTION TYPE.")
+            self._show_transaction_menu()
+
+
 
 
 
