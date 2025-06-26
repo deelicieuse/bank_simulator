@@ -31,6 +31,23 @@ class BankGUI:
         self.initial_balance_var = ctk.StringVar()
         self.account_type_var = ctk.StringVar(value="Standard")
 
+        self.font_heading = ctk.CTkFont("Arial", 18, "bold")
+        self.font_label = ctk.CTkFont("Arial", 12)
+        self.font_button = ctk.CTkFont("Arial", 14, "bold")
+        self.font_entry = ctk.CTkFont("Arial", 12)
+
+        self.btn_color_primary = "#428bca"
+        self.btn_hover_primary = "#3276b1"
+        self.btn_color_success = "#5cb85c"
+        self.btn_hover_success = "#4cae4c"
+        self.btn_color_warning = "#f0ad4e"
+        self.btn_hover_warning = "#eb9316"
+        self.btn_color_danger = "#d9534f"
+        self.btn_hover_danger = "#c9302c"
+        self.btn_color_neutral = "#6c757d"
+        self.btn_hover_neutral = "#5a6268"
+
+
 
         self._create_main_layout_containers()
 
