@@ -50,6 +50,8 @@ class BankGUI:
         self._create_main_layout_containers()
         self._create_all_dynamic_screens()
 
+        self._show_screen(self.welcome_screen)
+
 
     def _create_main_layout_containers(self):
         self.main_frame = ctk.CTkFrame(self.root, fg_color="#343a40", corner_radius=10)
@@ -72,9 +74,6 @@ class BankGUI:
         self.content_frame.grid(row=1, column=0, pady=10, padx=10, sticky="nsew")
         self.content_frame.grid_columnconfigure(0, weight=1)
 
-    def _placeholder_handler(self):
-        print("Button pressed (not yet implemented)")
-
     def _create_all_dynamic_screens(self):
         self.screens = {}
 
@@ -82,7 +81,7 @@ class BankGUI:
         self.screens['welcome'] = self.welcome_screen
         ctk.CTkButton(self.welcome_screen,
                       text="INSERT CARD",
-                      command=self._placeholder_handler(),
+                      command=self._show_account_selection_screen(),
                       font=self.font_button,
                       fg_color=self.btn_color_primary,
                       hover_color=self.btn_hover_primary).pack(pady=50)
@@ -103,7 +102,7 @@ class BankGUI:
         for text, type_val in account_type_buttons_info:
             ctk.CTkButton(self.account_select_screen,
                           text=text,
-                          command=self._placeholder_handler(),
+                          command=lambda tv=type_val: self._select_account_type(tv),
                           font=self.font_button,
                           fg_color=self.btn_color_primary,
                           hover_color=self.btn_hover_primary).pack(fill=ctk.X, pady=4, padx=50)
@@ -111,7 +110,7 @@ class BankGUI:
         ctk.CTkButton(
             self.account_select_screen,
             text="RETURN CARD / CANCEL",
-            command=self._placeholder_handler(),
+            command=self._return_card_and_reset(),
             font=self.font_button,
             fg_color=self.btn_color_danger,
             hover_color=self.btn_hover_danger
@@ -121,10 +120,10 @@ class BankGUI:
         self.screens['transaction_menu'] = self.transaction_menu_screen
         ctk.CTkLabel(self.transaction_menu_screen, text="SELECT TRANSACTION:", font=self.font_heading, text_color="#ffffff").pack(pady=15)
         transaction_buttons_info = [
-            ("VIEW BALANCE", self._placeholder_handler()),
-            ("DEPOSIT FUNDS", lambda: self._placeholder_handler("deposit")),
-            ("WITHDRAW CASH", lambda: self._placeholder_handler("withdraw")),
-            ("TRANSFER CREDITS", lambda: self._placeholder_handler("transfer"))
+            ("VIEW BALANCE", self._display_current_balance()),
+            ("DEPOSIT FUNDS", lambda: self._show_transaction_input("deposit")),
+            ("WITHDRAW CASH", lambda: self._show_transaction_input("withdraw")),
+            ("TRANSFER CREDITS", lambda: self._show_transaction_input("transfer"))
         ]
         for text, command in transaction_buttons_info:
             ctk.CTkButton(
@@ -138,7 +137,7 @@ class BankGUI:
         ctk.CTkButton(
             self.transaction_menu_screen,
             text="RETURN CARD / CANCEL",
-            command=self._placeholder_handler(),
+            command=self._return_card_and_reset,
             font=self.font_button,
             fg_color=self.btn_color_danger,
             hover_color=self.btn_hover_danger
@@ -149,7 +148,7 @@ class BankGUI:
         ctk.CTkButton(
             self.post_transaction_screen,
             text="DO ANOTHER TRANSACTION",
-            command=self._placeholder_handler(),
+            command=self._show_transaction_menu,
             font=self.font_button,
             fg_color=self.btn_color_primary,
             hover_color=self.btn_hover_primary
@@ -157,7 +156,7 @@ class BankGUI:
         self.receipt_button = ctk.CTkButton(
             self.post_transaction_screen,
             text="PRINT RECEIPT",
-            command=self._placeholder_handler(),
+            command=self._print_receipt(),
             font=self.font_button,
             fg_color=self.btn_color_success,
             hover_color=self.btn_hover_success
@@ -166,7 +165,7 @@ class BankGUI:
         ctk.CTkButton(
             self.post_transaction_screen,
             text="RETURN CARD / FINISH",
-            command=self._placeholder_handler(),
+            command=self._return_card_and_reset,
             font=self.font_button,
             fg_color=self.btn_color_danger,
             hover_color=self.btn_hover_danger
@@ -289,7 +288,7 @@ class BankGUI:
     def _show_account_selection_screen(self):
         self._clear_inputs()
         self._update_status("PLEASE SELECT YOUR ACCOUNT TYPE.")
-        self._show_screen(self.account_select_screen)
+        self._show_screen(self._account_select_screen)
 
     def _show_create_account_screen(self, *args):
         self._clear_inputs()
