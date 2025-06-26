@@ -391,6 +391,17 @@ class BankGUI:
             messagebox.showerror("Error", f"Account creation failed: {error}")
             self._update_status(f"CREATION FAILED: {error}")
 
+    def _get_amount(self):
+        try:
+            amount = float(self.amount_var.get())
+            if amount <= 0:
+                raise ValueError()  # Raising generic ValueError, handled below
+            return amount
+        except ValueError:
+            messagebox.showerror("Invalid Amount", "Please enter a positive number.")
+            self._update_status("INVALID AMOUNT.")
+            return None
+
     def _perform_current_transaction(self):
         if self.transaction_type == "deposit":
             self.perform_deposit()
@@ -402,6 +413,71 @@ class BankGUI:
             messagebox.showerror("Error", "Unknown transaction type.")
             self._update_status("UNKNOWN TRANSACTION TYPE.")
             self._show_transaction_menu()
+
+    def perform_deposit(self):
+        amount = self._get_amount()
+        if amount is None: return
+        try:
+            self.current_selected_account.deposit(amount)
+            messagebox.showinfo("Deposit", f"${amount:.2f} deposited.")
+            self._update_status(f"DEPOSITED ${amount:.2f}")
+            self._clear_inputs()
+            self._show_post_transaction_screen(True)
+        except Exception as error:
+            messagebox.showerror("Error", f"Deposit failed: {error}")
+            self._update_status(f"DEPOSIT FAILED: {error}")
+
+    def perform_withdraw(self):
+        amount = self._get_amount()
+        if amount is None: return
+        try:
+            self.current_selected_account.withdraw(amount)
+            messagebox.showinfo("Withdrawal", f"${amount:.2f} withdrawn.")
+            self._update_status(f"WITHDREW ${amount:.2f}")
+            self._clear_inputs()
+            self._show_post_transaction_screen(True)
+        except BalanceException as error:
+            messagebox.showerror("Insufficient Funds", str(error))
+            self._update_status("WITHDRAWAL FAILED: INSUFFICIENT FUNDS.")
+        except Exception as error:
+            messagebox.showerror("Error", f"Withdrawal failed: {error}")
+            self._update_status(f"WITHDRAWAL ERROR: {error}")
+
+    def perform_transfer(self):
+        amount = self._get_amount()
+        if amount is None: return
+        recipients = [name for name in self.accounts if name != self.current_selected_account.name]
+        if not recipients:
+            messagebox.showerror("Transfer Failed", "No other accounts exist.")
+            self._update_status("TRANSFER FAILED: NO OTHER ACCOUNTS.")
+            return
+
+        target_name = simpledialog.askstring("Transfer To", "Enter recipient account name:", parent=self.root)
+        if target_name is None:
+            self._update_status("TRANSFER CANCELLED.")
+            self._show_transaction_menu()
+            return
+
+        target_name = target_name.strip().upper()
+        target = self.accounts.get(target_name)
+        if not target or target == self.current_selected_account:
+            messagebox.showerror("Invalid Target", "Invalid or same account selected.")
+            self._update_status("TRANSFER FAILED: INVALID TARGET.")
+            return
+
+        try:
+            self.current_selected_account.transfer(amount, target)
+            messagebox.showinfo("Transfer", f"Transferred ${amount:.2f} to '{target.name}'.")
+            self._update_status(f"TRANSFERRED ${amount:.2f} TO '{target.name}'.")
+            self._clear_inputs()
+            self._show_post_transaction_screen(True)
+        except (BalanceException, ValueError) as error:
+            messagebox.showerror("Transfer Failed", str(error))
+            self._update_status(f"TRANSFER FAILED: {error}")
+        except Exception as error:
+            messagebox.showerror("Error", str(error))
+            self._update_status(f"TRANSFER ERROR: {error}")
+
 
 
 
