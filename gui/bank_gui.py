@@ -143,6 +143,37 @@ class BankGUI:
             hover_color=self.btn_hover_danger
         ).pack(pady=20)
 
+        self.transaction_input_screen = ctk.CTkFrame(self.content_frame, fg_color="transparent")
+        self.screens['transaction_input'] = self.transaction_input_screen
+        ctk.CTkLabel(
+            self.transaction_input_screen,
+            text="ENTER AMOUNT ($):",
+            font=self.font_label,
+            text_color="#ffffff"
+        ).pack(pady=5)
+        self.amount_entry_field = ctk.CTkEntry(
+            self.transaction_input_screen,
+            textvariable=self.amount_var,
+            font=self.font_entry,
+            text_color="#000000",
+            fg_color="#e0e0e0",
+            width=200,
+            justify="center"
+        )
+        self.amount_entry_field.pack(pady=5)
+        self.perform_transaction_button = ctk.CTkButton(
+            self.transaction_input_screen,
+            text="PERFORM ACTION",
+            command=self._perform_current_transaction,
+            font=self.font_button,
+            fg_color=self.btn_color_warning,
+            hover_color=self.btn_hover_warning
+        )
+        self.perform_transaction_button.pack(pady=10)
+        ctk.CTkButton(self.transaction_input_screen, text="<< BACK TO MENU", command=self._show_transaction_menu,
+                      font=self.font_button, fg_color=self.btn_color_neutral, hover_color=self.btn_hover_neutral).pack(
+            pady=20)
+
         self.post_transaction_screen = ctk.CTkFrame(self.content_frame, fg_color="transparent")
         self.screens['post_transaction'] = self.post_transaction_screen
         ctk.CTkButton(
