@@ -11,7 +11,7 @@ class BankGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("ATM SIMULATOR")
-        self.root.geometry("600x700")
+        self.root.geometry("600x500")
         self.root.resizable(False, False)
 
         ctk.set_appearance_mode("System")
