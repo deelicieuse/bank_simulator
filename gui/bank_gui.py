@@ -296,6 +296,44 @@ class BankGUI:
         self._update_status("ENTER NEW ACCOUNT DETAILS.")
         self._show_screen(self.create_account_screen)
 
+    def _show_transaction_menu(self):
+        if self.current_selected_account:
+            self._update_status(
+                f"ACCOUNT: {self.current_selected_account.name.upper()}\n"
+                f"BALANCE: ${self.current_selected_account.get_balance():.2f}\n\n"
+                f"SELECT TRANSACTION:"
+            )
+            self._show_screen(self.transaction_menu_screen)
+        else:
+            self._update_status("ERROR: NO ACCOUNT SELECTED. PLEASE SELECT AN ACCOUNT.")
+            self._show_account_selection_screen()
+
+    def _show_transaction_input(self, transaction_type):
+        if not self.current_selected_account:
+            self._update_status("ERROR: NO ACCOUNT SELECTED.")
+            self._show_account_selection_screen()
+            return
+
+        self.transaction_type = transaction_type
+        self._update_status(
+            f"{transaction_type.upper()} OPERATION\n"
+            f"ACCOUNT: {self.current_selected_account.name}\n"
+            f"BALANCE: ${self.current_selected_account.get_balance():.2f}\n\n"
+            f"ENTER AMOUNT:"
+        )
+        self.perform_transaction_button.configure(text=f"PERFORM {transaction_type.upper()}")
+        self.amount_var.set("")
+        self._show_screen(self.transaction_input_screen)
+
+
+    def _show_post_transaction_screen(self, display_receipt_button=True):
+        if display_receipt_button:
+            self.receipt_button.pack(pady=10)
+        else:
+            self.receipt_button.pack_forget()
+        self._show_screen(self.post_transaction_screen)
+
+
 
 
 
