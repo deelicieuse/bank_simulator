@@ -279,6 +279,24 @@ class BankGUI:
         self.initial_balance_var.set("")
         self.account_type_var.set("Standard")
 
+    def _return_card_and_reset(self):
+        self.current_selected_account = None
+        self.transaction_type = None
+        self._clear_inputs()
+        self._update_status("THANK YOU! CARD EJECTED. HAVE A NICE DAY.")
+        self.root.after(2000, lambda: self._show_screen(self.welcome_screen))
+
+    def _show_account_selection_screen(self):
+        self._clear_inputs()
+        self._update_status("PLEASE SELECT YOUR ACCOUNT TYPE.")
+        self._show_screen(self.account_select_screen)
+
+    def _show_create_account_screen(self, *args):
+        self._clear_inputs()
+        self._update_status("ENTER NEW ACCOUNT DETAILS.")
+        self._show_screen(self.create_account_screen)
+
+
 
 
 
