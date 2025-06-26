@@ -325,13 +325,73 @@ class BankGUI:
         self.amount_var.set("")
         self._show_screen(self.transaction_input_screen)
 
-
     def _show_post_transaction_screen(self, display_receipt_button=True):
         if display_receipt_button:
             self.receipt_button.pack(pady=10)
         else:
             self.receipt_button.pack_forget()
         self._show_screen(self.post_transaction_screen)
+
+    def _select_account_type(self, acc_type):
+        if acc_type == "NEW":
+            self._show_create_account_screen()
+            return
+
+        selected_acc_name = acc_type
+        if selected_acc_name in self.accounts:
+            self.current_selected_account = self.accounts[selected_acc_name]
+            self._update_status(
+                f"{selected_acc_name.upper()} ACCOUNT SELECTED. "
+                f"BALANCE: ${self.current_selected_account.get_balance():.2f}"
+            )
+            self._show_transaction_menu()
+        else:
+            messagebox.showerror("Account Not Found", f"No existing account of type '{acc_type.upper()}' found.\n\nPlease create a new account or select another type.")
+            self._update_status(f"ERROR: ACCOUNT TYPE '{acc_type}' NOT FOUND.")
+            self._show_account_selection_screen()
+
+    def create_account(self):
+        name = self.account_name_var.get().strip().upper()
+        balance_str = self.initial_balance_var.get().strip()
+        account_type = self.account_type_var.get()
+
+        if not name:
+            messagebox.showerror("Input Error", "Account name cannot be empty!")
+            self._update_status("ACCOUNT NAME CANNOT BE EMPTY!")
+            return
+        if name in self.accounts:
+            messagebox.showerror("Duplicate Account", f"Account '{name}' already exists!")
+            self._update_status(f"ACCOUNT '{name}' ALREADY EXISTS!")
+            return
+        try:
+            initial_balance = float(balance_str)
+            if initial_balance < 0:
+                raise ValueError("Negative balance not allowed.")
+        except ValueError:
+            messagebox.showerror("Invalid Balance", "Enter a valid non-negative number.")
+            self._update_status("INVALID BALANCE.")
+            return
+
+        try:
+            if account_type == "Standard":
+                acct = BankAccount(initial_balance, name)
+            elif account_type == "Interest":
+                acct = InterestRewardsAcct(initial_balance, name)
+            elif account_type == "Savings":
+                acct = SavingsAcct(initial_balance, name)
+            else:
+                acct = BankAccount(initial_balance, name)
+
+            self.accounts[name] = acct
+            messagebox.showinfo("Account Created", f"'{name}' created with ${initial_balance:.2f}!")
+            self._update_status(f"ACCOUNT '{name}' CREATED!")
+            self._clear_inputs()
+            self._show_account_selection_screen()
+        except Exception as error:
+            messagebox.showerror("Error", f"Account creation failed: {error}")
+            self._update_status(f"CREATION FAILED: {error}")
+
+
 
 
 
